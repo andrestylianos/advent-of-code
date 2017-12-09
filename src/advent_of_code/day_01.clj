@@ -6,14 +6,16 @@
             (slurp (io/resource "2017/day01"))))
 
 (defn solve-captcha
-  ([captcha]
-   (let [[h & rest] captcha]
-     (solve-captcha (conj captcha h) 0)))
+  ([[h & _ :as captcha]]
+   (solve-captcha (conj captcha h) 0))
 
   ([[h & coll] sum]
-   (if (empty? coll)
-     sum
-     (let [sum (if (= h (first coll)) (+ sum h) sum)]
-       (recur coll sum)))))
+   (cond
+     (empty? coll) sum
+     (= h (first coll)) (recur coll (+ sum h))
+     :else (recur coll sum))))
 
-(solve-captcha input)
+(defn result
+  "Returns the answer to the puzzle"
+  []
+  (solve-captcha input))
