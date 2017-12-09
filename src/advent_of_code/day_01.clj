@@ -19,3 +19,16 @@
   "Returns the answer to the puzzle"
   []
   (solve-captcha input))
+
+(defn solve-halfway-captcha [captcha]
+  (let [step (/ (count captcha) 2)]
+    (->> captcha
+         cycle
+         (drop step)
+         (map vector captcha)
+         (filter (fn [[x y]] (= x y)))
+         (map first)
+         (reduce + 0))))
+
+(defn result-part-2 []
+  (solve-halfway-captcha input))
